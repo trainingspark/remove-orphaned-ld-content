@@ -9,4 +9,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-Allows administrators to see and delete LearnDash topics, lessons and quizzes that are not assigned to a course
+This is a free plugin from Training Spark that scans your LearnDash platform for lessons, topics and quizzes that are not assigned to any courses.
+
+Visit: https://www.training-spark.com

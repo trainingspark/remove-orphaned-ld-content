@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name: Find and remove orphaned LearnDash content
- * Plugin URI: https://www.training-spark.com
  * Description: Allows administrators to see and delete LearnDash topics, lessons and quizzes that are not assigned to a course
  * Version: 1.0
  * Author: Training Spark

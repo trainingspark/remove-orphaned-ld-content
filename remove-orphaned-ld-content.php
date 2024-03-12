@@ -5,9 +5,13 @@
  * Version: 1.0
  * Author: Training Spark
  * Author URI: https://www.training-spark.com
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package TrainingSparkLearnDashManagement
  */
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 
 add_action( 'admin_menu', 'training_spark_get_orphaned_ld_content_menu' );
 add_action( 'admin_post_training_spark_trash_orphaned_ld_content', 'training_spark_trash_orphaned_ld_content' );
@@ -36,7 +40,7 @@ function training_spark_show_orphaned_ld_content() {
 
 			foreach ( $items as $item ) {
 
-				echo '<li>' . esc_html( get_the_title( $item->ID ) ) . ' - <a href="' . esc_url_raw( get_the_permalink( $item->ID ) ) . '">View</a> - <a href="' . esc_url_raw( get_edit_post_link( $item->ID ) ) . '">Edit</a></li>';
+				echo '<li>' . esc_html( get_the_title( $item->ID ) ) . ' - <a href="' . esc_url( get_the_permalink( $item->ID ) ) . '">View</a> - <a href="' . esc_url( get_edit_post_link( $item->ID ) ) . '">Edit</a></li>';
 
 			}
 
@@ -45,7 +49,7 @@ function training_spark_show_orphaned_ld_content() {
 		}
 
 		echo "<hr />
-<form action='" . esc_url_raw( admin_url( 'admin-post.php' ) ) . "' method='post'>
+<form action='" . esc_url( admin_url( 'admin-post.php' ) ) . "' method='post'>
         <input type='hidden' name='action' value='training_spark_trash_orphaned_ld_content'>";
 		wp_nonce_field( 'training_spark_trash_orphaned_ld_content', 'training_spark_trash_orphaned_ld_content_nonce' );
 		echo "<input type='submit' class='button button-primary' value='" . esc_attr__( 'Trash' ) . " orphaned content (Do so at your own risk!)'>
@@ -135,7 +139,7 @@ function training_spark_get_orphaned_ld_content_menu() {
  * Performs security checks and deletes the content if the user has the required permissions.
  */
 function training_spark_trash_orphaned_ld_content() {
-	if ( isset( $_POST['training_spark_trash_orphaned_ld_content_nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['training_spark_trash_orphaned_ld_content_nonce'] ), 'training_spark_trash_orphaned_ld_content' ) && current_user_can( 'manage_options' ) ) {
+	if ( isset( $_POST['training_spark_trash_orphaned_ld_content_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['training_spark_trash_orphaned_ld_content_nonce'] ) ), 'training_spark_trash_orphaned_ld_content' ) && current_user_can( 'manage_options' ) ) {
 
 		$orphaned = training_spark_get_orphaned_ld_content();
 
@@ -149,7 +153,7 @@ function training_spark_trash_orphaned_ld_content() {
 			}
 		}
 
-		wp_die( '<p>Orphaned LearnDash content deleted.</p><p><a href="' . esc_url_raw( admin_url( '/admin.php?page=orphaned-learndash-content' ) ) . '">&laquo; Back</p>' );
+		wp_die( '<p>Orphaned LearnDash content deleted.</p><p><a href="' . esc_url( admin_url( '/admin.php?page=orphaned-learndash-content' ) ) . '">&laquo; Back</p>' );
 
 	}
 
